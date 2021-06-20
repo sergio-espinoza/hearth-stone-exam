@@ -1,0 +1,7 @@
+{
+  "name": "hearth-stone",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,9 +1,11 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>My Sets</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <ng-container *ngIf="info">
+    <h3>Sets</h3>
+    <div class="set__list">
+      <div (click)="getCardForSet(setName)" class="set__item" *ngFor="let setName of info.sets">
+        <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+        <p>{{ setName }}</p>
+      </div>
+    </div>
+  </ng-container>
 </ion-content>

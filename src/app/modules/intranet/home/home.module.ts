@@ -10,6 +10,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
     SharedModule,
     HomePageRoutingModule
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
+  providers: []
 })
 export class HomePageModule {}

@@ -1,0 +1,41 @@
+ion-content {
+  --background: url(/assets/image/blood.background.jpg);
+}
+
+h3 {
+  padding: 1rem;
+  text-align: center;
+}
+
+.deck,
+.set {
+  &__item {
+    background-image: url(/assets/image/set.background.png);
+    background-size: 100% 100%;
+  }
+}
+
+.set {
+  &__list {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__item {
+    min-height: 10rem;
+    width: 15rem !important;
+    height: 10rem;
+    position: relative;
+
+    & > p {
+      text-align: center;
+      white-space: pre-wrap;
+      position: absolute;
+      bottom: 1rem;
+      width: 100%;
+    }
+  }
+}

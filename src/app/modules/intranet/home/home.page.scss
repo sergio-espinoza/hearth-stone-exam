@@ -1,3 +1,7 @@
+ion-content {
+  --background: url(/assets/image/blood.background.jpg);
+}
+
 ion-grid,
 .set {
   padding: 1rem;
@@ -25,8 +29,14 @@ ion-grid,
 
   &__item {
     display: inline-flex;
-    height: 10rem;
+    flex-direction: column;
+    min-height: 10rem;
     width: calc(50% - 1rem) !important;
+
+    & > p {
+      text-align: center;
+      white-space: pre-wrap;
+    }
   }
 
   &__item:not(:last-child) {

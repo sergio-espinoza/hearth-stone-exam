@@ -1,30 +1,40 @@
-import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ISet } from 'src/app/models';
+import { Router } from '@angular/router';
+import { ViewDidEnter } from '@ionic/angular';
+import { CardHttpService } from 'src/app/core/http/card.http.service';
+import { InfoService } from 'src/app/core/services';
+import { CardService } from 'src/app/core/services/card.service';
+import { IInfo } from 'src/app/models/info.interface';
 
 @Component({
   selector: 'app-set',
   templateUrl: './set.page.html',
   styleUrls: ['./set.page.scss'],
 })
-export class SetPage implements OnInit {
-  public decks: ISet[] = [
-    { name: 'Crecimiento', image: '' }
-  ];
-
+export class SetPage implements OnInit, ViewDidEnter {
+  public info: IInfo;
 
   constructor(
-    private http: HttpClient
+    private infoSvc: InfoService,
+    private cardSvc: CardService,
+    private cardHttpSvc: CardHttpService,
+    private router: Router
   ) { }
 
-  ngOnInit() {
-    this.http.get('https://omgvamp-hearthstone-v1.p.rapidapi.com/info', {
-      headers: {
-        'x-rapidapi-key': '348c7a342fmshce5c176bb32306ep157695jsnf510b9c3ab44',
-        'x-rapidapi-host': 'omgvamp-hearthstone-v1.p.rapidapi.com',
-        useQueryString: true as any
-      },
-    }).subscribe(d => console.log(JSON.stringify(d)));
+  ngOnInit(): void {
+  }
+
+  ionViewDidEnter(): void {
+    this.info = this.infoSvc.getInfoData();
+  }
+
+  public getCardForSet(setName: string) {
+    this.cardHttpSvc.getCardsForSegment('sets', setName).subscribe(
+      cardList => {
+        this.cardSvc.setCurrentCardData(cardList);
+        this.router.navigate(['/intranet/card']);
+      }
+    );
   }
 
 }

@@ -16,6 +16,13 @@ const routes: Routes = [
         path: 'set',
         loadChildren: () => import('./set/set.module').then( m => m.SetPageModule)
       },
+      {
+        path: 'card',
+        loadChildren: () => import('./card/card.module').then( m => m.CardPageModule)
+      },
+      {
+        path: '', redirectTo: 'home', pathMatch: 'full'
+      }
     ]
   },
 ];

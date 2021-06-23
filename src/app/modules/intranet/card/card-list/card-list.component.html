@@ -1,0 +1,12 @@
+<div
+  class="card__item"
+  *ngFor="let card of cardList.slice(0, 10)"
+  [style.backgroundImage]="'url(' + (card.img || cardImgFallback) + ')'"
+>
+  <div>CardName: {{ card.name }}</div>
+  <div>
+    Text:
+    <span [innerHTML]="card.text"></span>
+  </div>
+  <div>CardId: {{ card.cardId }}</div>
+</div>

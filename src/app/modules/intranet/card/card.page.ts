@@ -18,6 +18,5 @@ export class CardPage implements ViewDidEnter {
 
   ionViewDidEnter(): void {
     this.cardList = this.cardSvc.getCurrentCardData() || [];
-    console.log(this.cardList);
   }
 }

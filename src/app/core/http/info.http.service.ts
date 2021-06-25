@@ -20,8 +20,6 @@ export class InfoHttpService {
     return this.http.get<IInfo>(
       `${environment.mainApiUrl}/${this.segment}`,
       { headers: this.headers }
-    ).pipe(
-      tap(d => this.infoSvc.setInfoData(d))
     );
   }
 

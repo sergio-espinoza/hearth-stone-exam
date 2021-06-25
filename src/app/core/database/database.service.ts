@@ -1,86 +1,84 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { CapacitorSQLite, JsonSQLite } from '@capacitor-community/sqlite';
 
 import { AlertController } from '@ionic/angular';
 import { TDatabaseName } from 'src/app/models';
+import { databaseConfig } from 'src/app/config';
+import { DatabaseStateService } from '../state-management';
+import { Storage } from '@capacitor/storage';
 
 @Injectable({ providedIn: 'root' })
 export class DatabaseService {
-  private dbReady = false;
-  private dbName = 'hearthstone-db';
 
   constructor(
-    private http: HttpClient,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private databaseStateSvc: DatabaseStateService
   ) { }
 
   public async init(dbName: TDatabaseName): Promise<void> {
     try {
-      if (!this.getDbReady()) {
+      const dbSetupDone = await Storage.get({ key: 'dbSetupDone' });
+
+      if (!dbSetupDone?.value) {
         this.downloadDatabase();
         return;
       }
-      await this.enableDB('hearthstone-db');
-      this.setDbReady(true);
+
+      await this.enableDB(dbName);
+      this.changeStateDatabase(true);
 
     } catch (error) {
+      this.changeStateDatabase(false);
       const alertElement = await this.alertCtrl.create({
         message: error
       });
       await alertElement.present();
     }
-
-  }
-
-  public getDbReady(): boolean {
-    return this.dbReady;
-  }
-
-  public setDbReady(ready: boolean): void {
-    this.dbReady = ready;
   }
 
   private async enableDB(databaseName: TDatabaseName): Promise<void> {
-    await CapacitorSQLite.createConnection({ database: databaseName });
-    await CapacitorSQLite.open({ database: databaseName });
+
+    try {
+      await CapacitorSQLite.createConnection({ database: databaseName });
+      await CapacitorSQLite.open({ database: databaseName });
+
+    } catch (error) {
+      this.changeStateDatabase(false);
+    }
+
   }
 
+  private async downloadDatabase(update = false): Promise<void> {
+    try {
+      const jsonstring = JSON.stringify(databaseConfig);
+      const isValid = await CapacitorSQLite.isJsonValid({ jsonstring });
 
+      if (!isValid.result) { return; }
 
-  private downloadDatabase(update = false): void {
-    this.http.get<any>('assets/database/database.init.json').subscribe(
-      async (jsonExport: JsonSQLite) => {
-        try {
+      const dbName = databaseConfig.database;
+      await CapacitorSQLite.importFromJson({ jsonstring });
+      await Storage.set({ key: 'dbSetupDone', value: 'true' });
 
-          const jsonstring = JSON.stringify(jsonExport);
-          const isValid = await CapacitorSQLite.isJsonValid({ jsonstring });
+      await this.enableDB('hearthstone-db');
 
-          if (!isValid.result) { return; }
+      const databaseSetState = !update ?
+        () => CapacitorSQLite.createSyncTable({ database: dbName }) :
+        () => CapacitorSQLite.setSyncDate({ database: dbName, syncdate: '' + new Date().getTime() });
 
-          this.dbName = jsonExport.database;
-          await CapacitorSQLite.importFromJson({ jsonstring });
+      await databaseSetState();
+      this.changeStateDatabase(true);
 
-          if (!this.getDbReady()) {
-            await this.enableDB('hearthstone-db');
-          }
+    } catch (error) {
+      this.changeStateDatabase(false);
+      const alertElement = await this.alertCtrl.create({
+        message: error
+      });
+      await alertElement.present();
+    }
+  }
 
-          const databaseSetState = !update ?
-            () => CapacitorSQLite.createSyncTable({ database: this.dbName }) :
-            () => CapacitorSQLite.setSyncDate({ database: this.dbName, syncdate: '' + new Date().getTime() });
-
-          await databaseSetState();
-
-          this.setDbReady(true);
-
-        } catch (error) {
-          const alertElement = await this.alertCtrl.create({
-            message: 'Conected again!!'
-          });
-          await alertElement.present();
-        }
-      }
-    );
+  private changeStateDatabase(state: boolean): void {
+    this.databaseStateSvc.setIsReady$(state);
   }
 
 }

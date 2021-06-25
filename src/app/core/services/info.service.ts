@@ -35,7 +35,11 @@ export class InfoService {
     const [firtValue] = values;
 
     return Object.entries(firtValue).reduce((acc, [key, value]) => ({
-      ...acc, [key]: ('' + value).replace(/πø/g, ',').replace(/\`/g, '\'')
+      ...acc, [key]: this.transformInfoDataFromDatabase('' + value)
     }), {} as IInfo);
+  }
+
+  private transformInfoDataFromDatabase(value: string): any {
+    return JSON.parse(`{ "val": ${(value).replace(/πø/g, ',').replace(/\`/g, '\"')} }`).val;
   }
 }

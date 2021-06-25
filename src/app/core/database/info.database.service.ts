@@ -27,10 +27,7 @@ export class InfoDatabaseService {
       database: this.dbName, statements: statement
     })).pipe(
       tap(() => this.infoSvc.setInfoData(info)),
-      catchError((error) => {
-        alert(error);
-        return of({});
-      })
+      catchError(error => of({}))
     );
   }
 
@@ -39,11 +36,7 @@ export class InfoDatabaseService {
 
     return from(CapacitorSQLite.query({ database: this.dbName, statement, values: [] })).pipe(
       map(infoData => this.infoSvc.formInfoDatabaseToShow(infoData)),
-      tap(infoData => this.infoSvc.setInfoData(infoData)),
-      catchError((error) => {
-        alert(error);
-        return of({} as IInfo);
-      })
+      catchError((error) => of({} as IInfo))
     );
   }
 

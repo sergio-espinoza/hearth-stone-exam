@@ -1,32 +1,20 @@
 .card {
-  position: relative;
-  margin: 1rem 3.2rem;
+  margin: 1rem 2.5rem;
   padding: 1rem;
-  background-size: 100% 100%;
-  background-position: center;
-  height: 15rem;
-  user-select: none;
-  background-color: transparent;
-  transition: background-color 300ms;
-  filter: saturate(0.7);
-
-  &:hover,
-  &:focus-visible,
-  &:focus-within {
-    filter: saturate(1);
-  }
-}
-
-.with-background {
-  margin: 1rem;
-  left: 0.8rem;
-}
-
-.card {
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
+  height: 15rem;
+  box-sizing: border-box;
+  align-items: center;
+  background-size: 100% 100%;
+  background-position: center;
+  user-select: none;
+  background-color: transparent;
+  transition: background-color 300ms;
+  filter: saturate(0.7);
 
   &__title {
     text-align: center;
@@ -40,4 +28,16 @@
     font-size: 500;
     color: rgba(130, 0, 133, 1);
   }
+
+  &:hover,
+  &:focus-visible,
+  &:focus-within {
+    filter: saturate(1);
+  }
 }
+
+.with-background {
+  margin: .8rem;
+  width: 100%;
+}
+

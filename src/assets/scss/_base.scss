@@ -20,3 +20,30 @@ ion-content {
 .c-light {
   color: rgba(255, 255, 255, 1);
 }
+
+.styless-button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  text-rendering: auto;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  align-items: stretch;
+}
+
+.ta-center {
+  text-align: center;
+}
+
+.header-back-button {
+  ion-title {
+    width: calc(100% - 3.125rem);
+  }
+}

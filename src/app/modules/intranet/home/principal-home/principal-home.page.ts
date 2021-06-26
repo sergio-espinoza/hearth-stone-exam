@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, finalize, map, switchMap, take } from 'rxjs/operators';
 import { CardDatabaseService, InfoDatabaseService } from 'src/app/core/database';
 import { InfoHttpService } from 'src/app/core/http';
 import { CardHttpService } from 'src/app/core/http/card.http.service';
 import { CardService } from 'src/app/core/services/card.service';
-import { DatabaseStateService } from 'src/app/core/state-management';
-import { TMainAPISegments } from 'src/app/models';
+import { CardStateService, DatabaseStateService } from 'src/app/core/state-management';
+import { ICard, TMainAPISegments } from 'src/app/models';
 import { IInfo, IStringifyInfo } from 'src/app/models/info.interface';
 @Component({
   selector: 'app-principal-home',
@@ -23,8 +24,10 @@ export class PrincipalHomePage implements OnInit {
     private cardDatabaseSvc: CardDatabaseService,
     private cardHttpSvc: CardHttpService,
     private cardSvc: CardService,
+    private cardStateSvc: CardStateService,
     private router: Router,
-    private databaseStateSvc: DatabaseStateService
+    private databaseStateSvc: DatabaseStateService,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit(): void {
@@ -32,29 +35,38 @@ export class PrincipalHomePage implements OnInit {
     this.loadCards();
   }
 
-  public getCardForSet(segment: TMainAPISegments, setName: string): void {
-    this.cardHttpSvc.getCardsForSegment(segment, setName).subscribe(
-      cardList => {
-        this.cardSvc.setCurrentCardData(cardList);
-        this.router.navigate(['/intranet/card']);
-      }
-    );
+  public getCardForSet(segmentName: keyof ICard, segmentValue: string): void {
+    this.cardStateSvc.setRouterState([segmentName, segmentValue]);
+    this.router.navigate(['/intranet/home/card']);
   }
 
-  private async loadCards(): Promise<void> {
-    const [cardsQuantity] = (await this.cardDatabaseSvc.countCards()).values;
-    if (cardsQuantity?.['COUNT(*)']) { return; }
-    this.getAllCardsFromExternal();
+  private loadCards(): void {
+    this.databaseStateSvc.getIsReadyState$().pipe(
+      filter(readyState => readyState),
+      take(1)
+    ).subscribe(async (state) => {
+      if (!state) { return; }
+      const [cardsQuantity] = (await this.cardDatabaseSvc.countCards()).values;
+      if (cardsQuantity?.['COUNT(*)']) { return; }
+      this.getAllCardsFromExternal();
+    });
   }
 
-  private getAllCardsFromExternal(): void {
-    this.cardHttpSvc.getAllCards().pipe(
-      map(cardsResponse => this.cardSvc.formatCardsHttpResponseToInsert(cardsResponse)),
-      switchMap(subQuery => this.cardDatabaseSvc.insertMultiple(subQuery))
-    ).subscribe();
+  private async getAllCardsFromExternal(): Promise<void> {
+    const loading = await this.loadingCtrl.create({
+      message: 'cargando cartas espere un favor...'
+    });
+    loading.present();
+
+    this.cardHttpSvc.getAllCards()
+      .pipe(
+        map(cardsResponse => this.cardSvc.formatCardsHttpResponseToInsert(cardsResponse)),
+        switchMap(subQuery => this.cardDatabaseSvc.insertMultiple(subQuery)),
+        finalize(() => loading.dismiss()))
+      .subscribe();
   }
 
-  private loadInfoData(): void {
+  private async loadInfoData(): Promise<void> {
     this.infos$ = this.databaseStateSvc.getIsReadyState$().pipe(
       filter(readyState => readyState),
       switchMap(() => this.getInfoFromInternalDatabase$()),
@@ -74,6 +86,7 @@ export class PrincipalHomePage implements OnInit {
   }
 
   private getInfoFromExternalDatabase$(): Observable<IInfo> {
+
     let anchorData = {} as IInfo;
     return this.infoHttpSvc.getInfo$().pipe(
       switchMap(infoBody => {

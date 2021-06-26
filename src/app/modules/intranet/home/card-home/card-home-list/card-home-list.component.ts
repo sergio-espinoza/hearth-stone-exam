@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICard } from 'src/app/models';
 
 @Component({
@@ -12,8 +12,19 @@ export class CardHomeListComponent {
   @Input()
   public cardList: ICard[] = [];
 
+  @Output()
+  public clickCardEmitter = new EventEmitter<ICard>();
+
   public cardImgFallback = 'assets/image/set.background.png';
 
   constructor(
   ) { }
+
+  public onClickCard(card: ICard): void {
+    this.clickCardEmitter.emit(card);
+  }
+
+  public trackByCardItems(index: number, card: ICard): number {
+    return card.id;
+  }
 }

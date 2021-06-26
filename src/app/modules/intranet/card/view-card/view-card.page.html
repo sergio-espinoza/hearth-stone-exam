@@ -1,0 +1,25 @@
+<ion-header class="header-back-button">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/intranet"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ta-center">Mi Carta</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ng-container *ngIf="card">
+    <div
+      class="card__img"
+      [style.backgroundImage]="'url(' + card.img + ')'"
+    ></div>
+    <div
+      class="card__img-gold"
+      [style.backgroundImage]="'url(' + card.imgGold + ')'"
+    ></div>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button color="light" routerLink="../edit-card">
+        <ion-icon name="pencil"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </ng-container>
+</ion-content>

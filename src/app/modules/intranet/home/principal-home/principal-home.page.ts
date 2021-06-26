@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, finalize, map, switchMap, take } from 'rxjs/operators';
 import { CardDatabaseService, InfoDatabaseService } from 'src/app/core/database';
 import { InfoHttpService } from 'src/app/core/http';
 import { CardHttpService } from 'src/app/core/http/card.http.service';
@@ -25,7 +26,8 @@ export class PrincipalHomePage implements OnInit {
     private cardSvc: CardService,
     private cardStateSvc: CardStateService,
     private router: Router,
-    private databaseStateSvc: DatabaseStateService
+    private databaseStateSvc: DatabaseStateService,
+    private loadingCtrl: LoadingController
   ) { }
 
   ngOnInit(): void {
@@ -44,14 +46,21 @@ export class PrincipalHomePage implements OnInit {
     this.getAllCardsFromExternal();
   }
 
-  private getAllCardsFromExternal(): void {
-    this.cardHttpSvc.getAllCards().pipe(
-      map(cardsResponse => this.cardSvc.formatCardsHttpResponseToInsert(cardsResponse)),
-      switchMap(subQuery => this.cardDatabaseSvc.insertMultiple(subQuery))
-    ).subscribe();
+  private async getAllCardsFromExternal(): Promise<void> {
+    const loading = await this.loadingCtrl.create({
+      message: 'cargando cartas espere un favor...'
+    });
+    loading.present();
+
+    this.cardHttpSvc.getAllCards()
+      .pipe(
+        map(cardsResponse => this.cardSvc.formatCardsHttpResponseToInsert(cardsResponse)),
+        switchMap(subQuery => this.cardDatabaseSvc.insertMultiple(subQuery)),
+        finalize(() => loading.dismiss()))
+      .subscribe();
   }
 
-  private loadInfoData(): void {
+  private async loadInfoData(): Promise<void> {
     this.infos$ = this.databaseStateSvc.getIsReadyState$().pipe(
       filter(readyState => readyState),
       switchMap(() => this.getInfoFromInternalDatabase$()),
@@ -71,6 +80,7 @@ export class PrincipalHomePage implements OnInit {
   }
 
   private getInfoFromExternalDatabase$(): Observable<IInfo> {
+
     let anchorData = {} as IInfo;
     return this.infoHttpSvc.getInfo$().pipe(
       switchMap(infoBody => {

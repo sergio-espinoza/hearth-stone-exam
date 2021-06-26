@@ -18,11 +18,17 @@ export class CardDatabaseService {
   }
 
   public getCardPagination(
-    limitValue: number, lastValue = 0
+    limitValue: number, lastValue = 0, segment: [string, string | number]
   ): Observable<capSQLiteValues> {
-    const statement = this.queryDatabaseSvc.getPaginationQuery({
-      lastValue, limitValue, tableName: 'cards', columnName: 'id'
-    });
+    const [keySegment, valueSegment] = segment;
+
+    const valueSegmentConditional = valueSegment && typeof valueSegment === 'string';
+    const finalValueSegment = valueSegmentConditional ? JSON.stringify(valueSegment) : valueSegment;
+
+    const statement = this.queryDatabaseSvc.getPaginationQuery(
+      { lastValue, limitValue, tableName: 'cards', columnName: 'id' },
+      [keySegment, finalValueSegment]
+    );
 
     return from(CapacitorSQLite.query({ database: 'hearthstone-db', statement, values: [] }));
   }

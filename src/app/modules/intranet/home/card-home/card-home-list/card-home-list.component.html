@@ -1,14 +1,19 @@
 <div
   class="card"
-  *ngFor="let card of cardList"
+  *ngFor="let card of cardList; index as i; trackBy: trackByCardItems"
   [class.with-background]="card.img && card.img !== 'empty'"
-  [style.backgroundImage]="'url(' + (card.img | fallback: cardImgFallback ) + ')'"
+  [style.backgroundImage]="
+    'url(' + (card.img | fallback: cardImgFallback) + ')'
+  "
+  (click)="onClickCard(card)"
 >
   <ng-container *ngIf="!card.img || card.img === 'empty'">
     <div class="card__title">{{ card.name }}</div>
     <div class="card__text">
       <span [innerHTML]="card.text"></span>
     </div>
-    <div class="card__race" [hidden]="card.race === 'empty'">{{ card.race }}</div>
+    <div class="card__race" [hidden]="card.race === 'empty'">
+      {{ card.race }}
+    </div>
   </ng-container>
 </div>

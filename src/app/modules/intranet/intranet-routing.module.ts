@@ -10,24 +10,31 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+        loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
       },
       // {
       //   path: 'set',
       //   loadChildren: () => import('./set/set.module').then( m => m.SetPageModule)
       // },
       {
-        path: 'card',
-        loadChildren: () => import('./card/card.module').then( m => m.CardPageModule)
+        path: 'add-card',
+        loadChildren: () =>
+          import('./card/add-card/add-card.module').then(m => m.AddCardPageModule)
+      },
+      {
+        path: 'view-card',
+        loadChildren: () =>
+          import('./card/view-card/view-card.module').then(m => m.ViewCardPageModule)
+      },
+      {
+        path: 'edit-card',
+        loadChildren: () =>
+          import('./card/edit-card/edit-card.module').then(m => m.EditCardPageModule)
       },
       {
         path: '', redirectTo: 'home', pathMatch: 'full'
       }
     ]
-  },
-  {
-    path: 'card',
-    loadChildren: () => import('./card/card.module').then( m => m.CardPageModule)
   },
 ];
 
@@ -35,4 +42,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class IntranetPageRoutingModule {}
+export class IntranetPageRoutingModule { }

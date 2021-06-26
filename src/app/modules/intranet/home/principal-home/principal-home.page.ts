@@ -6,8 +6,8 @@ import { CardDatabaseService, InfoDatabaseService } from 'src/app/core/database'
 import { InfoHttpService } from 'src/app/core/http';
 import { CardHttpService } from 'src/app/core/http/card.http.service';
 import { CardService } from 'src/app/core/services/card.service';
-import { DatabaseStateService } from 'src/app/core/state-management';
-import { TMainAPISegments } from 'src/app/models';
+import { CardStateService, DatabaseStateService } from 'src/app/core/state-management';
+import { ICard, TMainAPISegments } from 'src/app/models';
 import { IInfo, IStringifyInfo } from 'src/app/models/info.interface';
 @Component({
   selector: 'app-principal-home',
@@ -23,6 +23,7 @@ export class PrincipalHomePage implements OnInit {
     private cardDatabaseSvc: CardDatabaseService,
     private cardHttpSvc: CardHttpService,
     private cardSvc: CardService,
+    private cardStateSvc: CardStateService,
     private router: Router,
     private databaseStateSvc: DatabaseStateService
   ) { }
@@ -32,13 +33,9 @@ export class PrincipalHomePage implements OnInit {
     this.loadCards();
   }
 
-  public getCardForSet(segment: TMainAPISegments, setName: string): void {
-    this.cardHttpSvc.getCardsForSegment(segment, setName).subscribe(
-      cardList => {
-        this.cardSvc.setCurrentCardData(cardList);
-        this.router.navigate(['/intranet/card']);
-      }
-    );
+  public getCardForSet(segmentName: keyof ICard, segmentValue: string): void {
+    this.cardStateSvc.setRouterState([segmentName, segmentValue]);
+    this.router.navigate(['/intranet/home/card']);
   }
 
   private async loadCards(): Promise<void> {

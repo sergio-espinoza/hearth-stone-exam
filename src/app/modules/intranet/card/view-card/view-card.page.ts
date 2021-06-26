@@ -3,18 +3,18 @@ import { Router } from '@angular/router';
 import { ICard } from 'src/app/models';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.page.html',
-  styleUrls: ['./card.page.scss'],
+  selector: 'app-view-card',
+  templateUrl: './view-card.page.html',
+  styleUrls: ['./view-card.page.scss'],
 })
-export class CardPage implements OnInit {
+export class ViewCardPage implements OnInit {
   public card: ICard;
 
   constructor(
     private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadCard();
   }
 
@@ -26,5 +26,4 @@ export class CardPage implements OnInit {
     }
     this.card = selectedCardByState as ICard;
   }
-
 }

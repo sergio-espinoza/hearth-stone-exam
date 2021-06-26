@@ -1,13 +1,30 @@
 <ion-content>
-  <app-card-home-list [cardList]="cardList"></app-card-home-list>
+  <app-card-home-list
+    (clickCardEmitter)="goToDetail($event)"
+    [cardList]="cardList"
+  ></app-card-home-list>
   <ion-infinite-scroll (ionInfinite)="loadCardsByScroll($event)">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
-      loadingText="<div class='c-light'>cargando más cartas...<div>">
+      loadingText="<div class='c-light'>cargando más cartas...<div>"
+    >
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
+  <ion-fab
+    *ngIf="selectedSegment"
+    vertical="bottom"
+    horizontal="start"
+    slot="fixed"
+  >
+    <ion-chip class="filter-chip">
+      <ion-icon name="filter-circle"></ion-icon>
+      <ion-label [hidden]="!selectedSegment[0]"
+        >{{ selectedSegment[0] }}: {{ selectedSegment[1] }}</ion-label
+      >
+    </ion-chip>
+  </ion-fab>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="light">
+    <ion-fab-button color="light" routerLink="/intranet/add-card">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

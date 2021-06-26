@@ -33,6 +33,23 @@
     </ion-grid>
     <div class="set">
       <div>
+        <h5>Sets</h5>
+      </div>
+      <div class="set__list">
+        <div class="set__slides">
+          <div
+            class="set__item"
+            *ngFor="let set of info.sets"
+            (click)="getCardForSet('cardSet', set)"
+          >
+            <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+            <p>{{ set }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="set">
+      <div>
         <h5>Types</h5>
       </div>
       <div class="set__list">
@@ -40,7 +57,7 @@
           <div
             class="set__item"
             *ngFor="let type of info.types"
-            (click)="getCardForSet('types', type)"
+            (click)="getCardForSet('type', type)"
           >
             <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
             <p>{{ type }}</p>
@@ -57,7 +74,7 @@
           <div
             class="set__item"
             *ngFor="let faction of info.factions"
-            (click)="getCardForSet('factions', faction)"
+            (click)="getCardForSet('faction', faction)"
           >
             <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
             <p>{{ faction }}</p>
@@ -74,7 +91,7 @@
           <div
             class="set__item"
             *ngFor="let quality of info.qualities"
-            (click)="getCardForSet('qualities', quality)"
+            (click)="getCardForSet('rarity', quality)"
           >
             <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
             <p>{{ quality }}</p>
@@ -91,7 +108,7 @@
           <div
             class="set__item"
             *ngFor="let race of info.races"
-            (click)="getCardForSet('races', race)"
+            (click)="getCardForSet('race', race)"
           >
             <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
             <p>{{ race }}</p>
@@ -108,7 +125,7 @@
           <div
             class="set__item"
             *ngFor="let class of info.classes"
-            (click)="getCardForSet('classes', class)"
+            (click)="getCardForSet('playerClass', class)"
           >
             <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
             <p>{{ class }}</p>

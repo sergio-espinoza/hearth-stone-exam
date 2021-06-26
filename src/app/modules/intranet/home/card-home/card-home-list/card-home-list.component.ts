@@ -3,12 +3,12 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ICard } from 'src/app/models';
 
 @Component({
-  selector: 'app-card-list',
-  templateUrl: './card-list.component.html',
-  styleUrls: ['./card-list.component.scss']
+  selector: 'app-card-home-list',
+  templateUrl: './card-home-list.component.html',
+  styleUrls: ['./card-home-list.component.scss']
 })
 
-export class CardListComponent {
+export class CardHomeListComponent {
   @Input()
   public cardList: ICard[] = [];
 

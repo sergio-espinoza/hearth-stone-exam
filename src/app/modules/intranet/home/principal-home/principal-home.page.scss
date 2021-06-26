@@ -1,0 +1,45 @@
+ion-content {
+  --background: url(/assets/image/blood.background.jpg);
+}
+
+ion-grid,
+.set {
+  padding: 1rem;
+}
+
+.deck,
+.set {
+  &__item {
+    background-image: url(/assets/image/set.background.png);
+    background-size: 100% 100%;
+  }
+}
+
+.set {
+  &__list {
+    width: calc(100% + 2rem);
+    margin-left: -1rem;
+  }
+
+  &__slides {
+    white-space: nowrap;
+    overflow: auto;
+    padding: 0 1rem;
+  }
+
+  &__item {
+    display: inline-flex;
+    flex-direction: column;
+    min-height: 10rem;
+    width: calc(50% - 1rem) !important;
+
+    & > p {
+      text-align: center;
+      white-space: pre-wrap;
+    }
+  }
+
+  &__item:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}

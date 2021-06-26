@@ -41,7 +41,6 @@ export class CardDatabaseService {
       'cards', selector
     );
     return CapacitorSQLite.query({ database: 'hearthstone-db', values: [], statement });
-
   }
 
 }

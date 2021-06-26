@@ -1,9 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Cards</ion-title>
+    <ion-title>Mi Carta</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <app-card-list *ngIf="cardList$ | async as cardList" [cardList]="cardList"></app-card-list>
+  <div>{{ card | json }}</div>
 </ion-content>

@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewDidEnter } from '@ionic/angular';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { CardDatabaseService } from 'src/app/core/database';
-import { CardService } from 'src/app/core/services/card.service';
+import { Router } from '@angular/router';
 import { ICard } from 'src/app/models';
 
 @Component({
@@ -11,24 +7,24 @@ import { ICard } from 'src/app/models';
   templateUrl: './card.page.html',
   styleUrls: ['./card.page.scss'],
 })
-export class CardPage implements ViewDidEnter {
-  // public cardList: ICard[] = [];
-  public cardList$?: Observable<ICard[]>;
+export class CardPage implements OnInit {
+  public card: ICard;
 
   constructor(
-    private cardSvc: CardService,
-    private cardsDatabaseSvc: CardDatabaseService
+    private router: Router
   ) { }
 
-
-  ionViewDidEnter(): void {
-    // this.cardList = this.cardSvc.getCurrentCardData() || [];
-    this.loadCards();
+  ngOnInit() {
+    this.loadCard();
   }
 
-  public loadCards(): void {
-    this.cardList$ = this.cardsDatabaseSvc.getCardPagination(5, 1).pipe(
-      map(cardLocalResponse => cardLocalResponse.values)
-    );
+  public loadCard(): void {
+    const selectedCardByState = this.router.getCurrentNavigation()?.extras?.state;
+
+    if (!selectedCardByState) {
+      return;
+    }
+    this.card = selectedCardByState as ICard;
   }
+
 }

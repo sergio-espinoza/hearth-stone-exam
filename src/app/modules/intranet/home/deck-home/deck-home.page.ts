@@ -7,11 +7,11 @@ import { CardService } from 'src/app/core/services/card.service';
 import { IInfo } from 'src/app/models/info.interface';
 
 @Component({
-  selector: 'app-set',
-  templateUrl: './set.page.html',
-  styleUrls: ['./set.page.scss'],
+  selector: 'app-deck-home',
+  templateUrl: './deck-home.page.html',
+  styleUrls: ['./deck-home.page.scss'],
 })
-export class SetPage implements OnInit, ViewDidEnter {
+export class DeckHomePage implements OnInit, ViewDidEnter {
   public info: IInfo;
 
   constructor(
@@ -28,8 +28,8 @@ export class SetPage implements OnInit, ViewDidEnter {
     this.info = this.infoSvc.getInfoData();
   }
 
-  public getCardForSet(setName: string) {
-    this.cardHttpSvc.getCardsForSegment('sets', setName).subscribe(
+  public getCardForSet(deckName: string) {
+    this.cardHttpSvc.getCardsForSegment('sets', deckName).subscribe(
       cardList => {
         this.cardSvc.setCurrentCardData(cardList);
         this.router.navigate(['/intranet/card']);

@@ -10,6 +10,8 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
+@use './assets/scss/base';
+@use './assets/scss/text';
 @import "~@ionic/angular/css/core.css";
 
 /* Basic CSS for apps built with Ionic */

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { IonicModule } from '@ionic/angular';
 import { IntranetPageRoutingModule } from './intranet-routing.module';
 
 import { IntranetPage } from './intranet.page';
 
 @NgModule({
   imports: [
-    SharedModule,
+    IonicModule,
     IntranetPageRoutingModule
   ],
   declarations: [IntranetPage]

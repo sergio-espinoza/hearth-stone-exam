@@ -11,8 +11,23 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+      },
+      // {
+      //   path: 'set',
+      //   loadChildren: () => import('./set/set.module').then( m => m.SetPageModule)
+      // },
+      {
+        path: 'card',
+        loadChildren: () => import('./card/card.module').then( m => m.CardPageModule)
+      },
+      {
+        path: '', redirectTo: 'home', pathMatch: 'full'
       }
     ]
+  },
+  {
+    path: 'card',
+    loadChildren: () => import('./card/card.module').then( m => m.CardPageModule)
   },
 ];
 

@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
+import { FallbackPipe, JsonParsePipe } from './pipes';
 
 const COMPONENTS = [];
 const DIRECTIVES = [];
-const PIPES = [];
+const PIPES = [
+  JsonParsePipe,
+  FallbackPipe
+];
 
 @NgModule({
   imports: [],
-  exports: [],
+  exports: [
+    ...COMPONENTS, ...DIRECTIVES, ...PIPES
+  ],
   declarations: [
     ...COMPONENTS, ...DIRECTIVES, ...PIPES
   ],

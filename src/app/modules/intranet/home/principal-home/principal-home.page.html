@@ -1,0 +1,120 @@
+<ion-content>
+  <ng-container *ngIf="infos$ | async as info">
+    <ion-grid class="deck">
+      <ion-row>
+        <ion-col>
+          <h3>Hearthstone</h3>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="deck__item">
+          <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+        </ion-col>
+        <ion-col class="deck__item">
+          <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="deck__item">
+          <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+        </ion-col>
+        <ion-col class="deck__item">
+          <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="deck__item">
+          <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+        </ion-col>
+        <ion-col class="deck__item">
+          <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div class="set">
+      <div>
+        <h5>Types</h5>
+      </div>
+      <div class="set__list">
+        <div class="set__slides">
+          <div
+            class="set__item"
+            *ngFor="let type of info.types"
+            (click)="getCardForSet('types', type)"
+          >
+            <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+            <p>{{ type }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="set">
+      <div>
+        <h5>Factions</h5>
+      </div>
+      <div class="set__list">
+        <div class="set__slides">
+          <div
+            class="set__item"
+            *ngFor="let faction of info.factions"
+            (click)="getCardForSet('factions', faction)"
+          >
+            <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+            <p>{{ faction }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="set">
+      <div>
+        <h5>Qualities</h5>
+      </div>
+      <div class="set__list">
+        <div class="set__slides">
+          <div
+            class="set__item"
+            *ngFor="let quality of info.qualities"
+            (click)="getCardForSet('qualities', quality)"
+          >
+            <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+            <p>{{ quality }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="set">
+      <div>
+        <h5>Races</h5>
+      </div>
+      <div class="set__list">
+        <div class="set__slides">
+          <div
+            class="set__item"
+            *ngFor="let race of info.races"
+            (click)="getCardForSet('races', race)"
+          >
+            <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+            <p>{{ race }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="set">
+      <div>
+        <h5>Classes</h5>
+      </div>
+      <div class="set__list">
+        <div class="set__slides">
+          <div
+            class="set__item"
+            *ngFor="let class of info.classes"
+            (click)="getCardForSet('classes', class)"
+          >
+            <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
+            <p>{{ class }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ion-content>

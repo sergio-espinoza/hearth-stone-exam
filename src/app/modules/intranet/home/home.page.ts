@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CapacitorSQLite } from '@capacitor-community/sqlite';
+import { CapacitorSQLite, capSQLiteValues } from '@capacitor-community/sqlite';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { InfoDatabaseService } from 'src/app/core/database';
+import { filter, map, switchMap, take } from 'rxjs/operators';
+import { çcardWrapper } from 'src/app/config';
+import { CardDatabaseService, InfoDatabaseService } from 'src/app/core/database';
 import { InfoHttpService } from 'src/app/core/http';
 import { CardHttpService } from 'src/app/core/http/card.http.service';
 import { CardService } from 'src/app/core/services/card.service';
 import { DatabaseStateService } from 'src/app/core/state-management';
-import { TMainAPISegments } from 'src/app/models';
+import { ICard, TMainAPISegments, TTableNames } from 'src/app/models';
 import { IInfo, IStringifyInfo } from 'src/app/models/info.interface';
 
 @Component({
@@ -21,7 +22,8 @@ export class HomePage implements OnInit {
 
   constructor(
     private infoHttpSvc: InfoHttpService,
-    private infoDabaseSvc: InfoDatabaseService,
+    private infoDatabaseSvc: InfoDatabaseService,
+    private cardDatabaseSvc: CardDatabaseService,
     private cardHttpSvc: CardHttpService,
     private cardSvc: CardService,
     private router: Router,
@@ -30,15 +32,29 @@ export class HomePage implements OnInit {
 
   ngOnInit(): void {
     this.loadInfoData();
+    this.loadCards();
   }
 
-  public getCardForSet(segment: TMainAPISegments, setName: string) {
+  public getCardForSet(segment: TMainAPISegments, setName: string): void {
     this.cardHttpSvc.getCardsForSegment(segment, setName).subscribe(
       cardList => {
         this.cardSvc.setCurrentCardData(cardList);
         this.router.navigate(['/intranet/card']);
       }
     );
+  }
+
+  private async loadCards(): Promise<void> {
+    const [cardsQuantity] = (await this.cardDatabaseSvc.countCards()).values;
+    if (cardsQuantity?.['COUNT(*)']) { return; }
+    this.getAllCardsFromExternal();
+  }
+
+  private getAllCardsFromExternal(): void {
+    this.cardHttpSvc.getAllCards().pipe(
+      map(cardsResponse => this.cardSvc.formatCardsHttpResponseToInsert(cardsResponse)),
+      switchMap(subQuery => this.cardDatabaseSvc.insertMultiple(subQuery))
+    ).subscribe();
   }
 
   private loadInfoData(): void {
@@ -50,9 +66,8 @@ export class HomePage implements OnInit {
   }
 
   private getInfoFromInternalDatabase$(): Observable<IInfo> {
-    return this.infoDabaseSvc.selectAllInfo().pipe(
+    return this.infoDatabaseSvc.selectAllInfo().pipe(
       switchMap(infoBody => {
-
         if (JSON.stringify(infoBody) !== '{}') {
           return of(infoBody);
         }
@@ -66,7 +81,7 @@ export class HomePage implements OnInit {
     return this.infoHttpSvc.getInfo$().pipe(
       switchMap(infoBody => {
         anchorData = infoBody;
-        return this.infoDabaseSvc.insertIntoInfo(infoBody);
+        return this.infoDatabaseSvc.insertIntoInfo(infoBody);
       }),
       map(() => anchorData)
     );

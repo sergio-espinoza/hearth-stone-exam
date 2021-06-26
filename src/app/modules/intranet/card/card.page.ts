@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewDidEnter } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CardDatabaseService } from 'src/app/core/database';
 import { CardService } from 'src/app/core/services/card.service';
 import { ICard } from 'src/app/models';
 
@@ -9,14 +12,23 @@ import { ICard } from 'src/app/models';
   styleUrls: ['./card.page.scss'],
 })
 export class CardPage implements ViewDidEnter {
-  public cardList: ICard[] = [];
+  // public cardList: ICard[] = [];
+  public cardList$?: Observable<ICard[]>;
 
   constructor(
-    private cardSvc: CardService
+    private cardSvc: CardService,
+    private cardsDatabaseSvc: CardDatabaseService
   ) { }
 
 
   ionViewDidEnter(): void {
-    this.cardList = this.cardSvc.getCurrentCardData() || [];
+    // this.cardList = this.cardSvc.getCurrentCardData() || [];
+    this.loadCards();
+  }
+
+  public loadCards(): void {
+    this.cardList$ = this.cardsDatabaseSvc.getCardPagination(5, 1).pipe(
+      map(cardLocalResponse => cardLocalResponse.values)
+    );
   }
 }

@@ -12,8 +12,8 @@ export interface ICard {
   text?: string;
   flavor?: string;
   artist?: string;
-  collectible?: boolean;
-  elite?: boolean;
+  collectible?: boolean | number;
+  elite?: boolean | number;
   race?: string;
   playerClass?: string;
   howToGet?: string;
@@ -24,7 +24,6 @@ export interface ICard {
   locale?: string;
   mechanics?: ICardMechanic[];
 }
-
 export interface ICardMechanic {
   name?: string;
 }

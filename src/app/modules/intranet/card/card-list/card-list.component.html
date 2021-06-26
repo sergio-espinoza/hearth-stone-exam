@@ -1,7 +1,7 @@
 <div
   class="card__item"
   *ngFor="let card of cardList.slice(0, 10)"
-  [style.backgroundImage]="'url(' + (card.img || cardImgFallback) + ')'"
+  [style.backgroundImage]="'url(' + (card.img | fallback: cardImgFallback ) + ')'"
 >
   <div>CardName: {{ card.name }}</div>
   <div>

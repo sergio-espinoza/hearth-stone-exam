@@ -16,13 +16,9 @@ export class QueryDatabaseService {
   }
 
   public getInsertMultipleIntoQuery(
-    tableName: TTableNames, columns: string[], valuesList: string[][]
+    tableName: TTableNames, columns: string[], valuesList: string
   ): string {
-    return `
-      INSERT INTO ${tableName} (${columns.join(',')})
-      VALUES
-        ()
-    `.replace(/\n+ */g, ' ').trim();
+    return `INSERT INTO ${tableName} (${columns.join(',')}) VALUES (${valuesList});`.replace(/\n+ *|'\n'/g,  ' ').trim();
   }
 
   public getInsertIntoQuery(
@@ -34,5 +30,17 @@ export class QueryDatabaseService {
       INSERT INTO ${tableName} (${columns.join(',')})
       VALUES ("${values.join('\",\"')}")
     `.replace(/\n+ */g, ' ').trim();
+  }
+
+  public getQuatityQuery(
+    tableName: TTableNames,
+    condition?: { [key: string]: string | number }
+  ) {
+    return `SELECT COUNT(column_name) FROM table_name WHERE condition;`;
+  }
+
+  public getCountRowsQuery(tableName: TTableNames, [selector, value]: [string, number | string] = ['', 0]): string {
+    const whereCondition = selector || value ? ` WHERE ${selector}=${value}` : '';
+    return `SELECT COUNT(*) FROM ${tableName}${whereCondition};`.trim();
   }
 }

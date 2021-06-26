@@ -40,10 +40,16 @@ export class PrincipalHomePage implements OnInit {
     this.router.navigate(['/intranet/home/card']);
   }
 
-  private async loadCards(): Promise<void> {
-    const [cardsQuantity] = (await this.cardDatabaseSvc.countCards()).values;
-    if (cardsQuantity?.['COUNT(*)']) { return; }
-    this.getAllCardsFromExternal();
+  private loadCards(): void {
+    this.databaseStateSvc.getIsReadyState$().pipe(
+      filter(readyState => readyState),
+      take(1)
+    ).subscribe(async (state) => {
+      if (!state) { return; }
+      const [cardsQuantity] = (await this.cardDatabaseSvc.countCards()).values;
+      if (cardsQuantity?.['COUNT(*)']) { return; }
+      this.getAllCardsFromExternal();
+    });
   }
 
   private async getAllCardsFromExternal(): Promise<void> {

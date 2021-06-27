@@ -13,10 +13,6 @@ h6 {
   color: rgba(255, 255, 255, 1);
 }
 
-ion-content {
-  --background: url(/assets/image/blood.background.jpg) !important;
-}
-
 .c-light {
   color: rgba(255, 255, 255, 1);
 }
@@ -47,9 +43,13 @@ ion-content {
     content: none !important;
   }
   ion-toolbar {
-    --background: url(/assets/image/blood.background.jpg) 100% 100% !important;
+    --background: url(/assets/image/blood.background.jpg) cover !important;
     --color: rgba(255, 255, 255, 1) !important;
   }
+}
+
+.transparent-content {
+  --background: url(/assets/image/blood.background.jpg) cover !important;
 }
 
 .header-back-button {
@@ -59,9 +59,9 @@ ion-content {
 }
 
 .transparent-tab-bar {
-  --background: url(/assets/image/blood.background.jpg) 100% 100%;
+  --background: url(/assets/image/blood.background.jpg) 100% 100% !important;
   --border: none;
-  filter: drop-shadow(2px 4px 6px black);
+  // filter: drop-shadow(2px 4px 6px rgb(43, 15, 15));
   ion-tab-button {
     --color-selected: rgba(255, 255, 255, 1) !important;
   }

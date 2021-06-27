@@ -12,10 +12,6 @@ const routes: Routes = [
         path: 'home',
         loadChildren: () => import('./home/home.module').then(m => m.HomePageModule)
       },
-      // {
-      //   path: 'set',
-      //   loadChildren: () => import('./set/set.module').then( m => m.SetPageModule)
-      // },
       {
         path: 'add-card',
         loadChildren: () =>
@@ -32,8 +28,23 @@ const routes: Routes = [
           import('./card/edit-card/edit-card.module').then(m => m.EditCardPageModule)
       },
       {
+        path: 'add-deck',
+        loadChildren: () =>
+          import('./deck/add-deck/add-deck.module').then(m => m.AddDeckPageModule)
+      },
+      {
+        path: 'view-deck',
+        loadChildren: () =>
+          import('./deck/view-deck/view-deck.module').then(m => m.ViewDeckPageModule)
+      },
+      {
+        path: 'edit-deck',
+        loadChildren: () =>
+          import('./deck/edit-deck/edit-deck.module').then(m => m.EditDeckPageModule)
+      },
+      {
         path: '', redirectTo: 'home', pathMatch: 'full'
-      }
+      },
     ]
   },
 ];

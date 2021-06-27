@@ -1,7 +1,7 @@
 html,
 body {
   height: 100%;
-  background-image: url(../image/blood.background.jpg);
+  background-image: url(/assets/image/blood.background.jpg);
 }
 
 h1,
@@ -42,8 +42,26 @@ ion-content {
   text-align: center;
 }
 
+.transparent-header {
+  &::after {
+    content: none !important;
+  }
+  ion-toolbar {
+    --background: url(/assets/image/blood.background.jpg) 100% 100% !important;
+  }
+}
+
 .header-back-button {
   ion-title {
     width: calc(100% - 3.125rem);
+  }
+}
+
+.transparent-tab-bar {
+  --background: url(/assets/image/blood.background.jpg) 100% 100%;
+  --border: none;
+  filter: drop-shadow(2px 4px 6px black);
+  ion-tab-button {
+    --color-selected: rgba(255, 255, 255, 1) !important;
   }
 }

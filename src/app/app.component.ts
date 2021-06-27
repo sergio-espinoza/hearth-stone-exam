@@ -30,16 +30,16 @@ export class AppComponent {
       message: 'Cargando Datos',
       spinner: 'bubbles'
     });
-    loader.present();
+    // loader.present();
 
-    this.databaseStateSvc.getIsReadyState$()
-      .pipe(
-        filter(state => state),
-        delay(1000),
-        take(1)
-      )
-      .subscribe(
-        _ => loader.dismiss()
-      );
+    // this.databaseStateSvc.getIsReadyState$()
+    //   .pipe(
+    //     filter(state => state),
+    //     delay(1000),
+    //     take(1)
+    //   )
+    //   .subscribe(
+    //     _ => loader.dismiss()
+    //   );
   }
 }

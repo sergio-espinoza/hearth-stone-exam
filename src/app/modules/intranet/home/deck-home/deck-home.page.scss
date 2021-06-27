@@ -3,15 +3,14 @@ h3 {
   text-align: center;
 }
 
-.deck,
-.set {
+.deck {
   &__item {
     background-image: url(/assets/image/set.background.png);
     background-size: 100% 100%;
   }
 }
 
-.set {
+.deck {
   &__list {
     display: flex;
     width: 100%;
@@ -19,7 +18,6 @@ h3 {
     justify-content: center;
     align-items: center;
   }
-
   &__item {
     min-height: 10rem;
     width: 15rem !important;

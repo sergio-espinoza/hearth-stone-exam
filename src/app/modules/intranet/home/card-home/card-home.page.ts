@@ -4,7 +4,6 @@ import { IonInfiniteScroll, ViewDidEnter } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CardDatabaseService } from 'src/app/core/database';
-import { CardService } from 'src/app/core/services/card.service';
 import { CardStateService } from 'src/app/core/state-management';
 import { ICard } from 'src/app/models';
 
@@ -22,12 +21,10 @@ export class CardHomePage implements OnInit, ViewDidEnter {
 
   public selectedSegment: [string, number | string];
   private lastCardIndex = 0;
-  private lastGettedCardLength = 0;
 
   constructor(
     private cardsDatabaseSvc: CardDatabaseService,
     private router: Router,
-    private cardSvc: CardService,
     private cardStateSvc: CardStateService
   ) { }
 
@@ -36,7 +33,7 @@ export class CardHomePage implements OnInit, ViewDidEnter {
     setTimeout(() => {
       event.target.complete();
       this.loadCards(this.selectedSegment);
-      if (this.lastGettedCardLength < 5) {
+      if (this.cardList.length >= 1000) {
         event.target.disabled = true;
       }
     }, 500);
@@ -62,7 +59,6 @@ export class CardHomePage implements OnInit, ViewDidEnter {
     ).subscribe(cardLocalValues => {
       if (cardLocalValues.length === 0) { return; }
       this.cardList.push(...cardLocalValues);
-      this.lastGettedCardLength = cardLocalValues.length;
       this.lastCardIndex = cardLocalValues[cardLocalValues.length - 1].id;
     });
   }
@@ -89,7 +85,6 @@ export class CardHomePage implements OnInit, ViewDidEnter {
 
   private resetCardValues(): void {
     this.cardList = [];
-    this.lastGettedCardLength = 0;
     this.lastCardIndex = 0;
   }
 }

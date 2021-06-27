@@ -1,10 +1,10 @@
 <ion-content>
-  <ng-container *ngIf="info">
-    <h3>Sets</h3>
-    <div class="set__list">
-      <div (click)="getCardForSet(setName)" class="set__item" *ngFor="let setName of info.sets">
+  <h3>My Decks</h3>
+  <ng-container *ngIf="decks.length">
+    <div class="deck__list">
+      <div (click)="goToDetailDeck(deck)" class="deck__item" *ngFor="let deck of decks">
         <img loading="lazy" src="assets/image/sets/hall-of-fame.png" />
-        <p>{{ setName }}</p>
+        <p>{{ deck.name }}</p>
       </div>
     </div>
   </ng-container>

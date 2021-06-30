@@ -1,0 +1,18 @@
+<div class="search">
+  <div class="search__form-field" [class.search__form-field--open]="isOpen">
+    <button (click)="close()" class="styless-button search__icon-button">
+      <ion-icon
+        [@openCloseSearchIcon]="isOpen ? 'iconOpen' : 'iconClosed'"
+        class="search__icon"
+        [name]="searchIconName"
+      ></ion-icon>
+    </button>
+    <input
+      class="search__input"
+      type="search"
+      [placeholder]="placeholder"
+      (click)="open()"
+    />
+  </div>
+  <div class="search__content" *ngIf="isOpen" @openCloseSearchContent></div>
+</div>

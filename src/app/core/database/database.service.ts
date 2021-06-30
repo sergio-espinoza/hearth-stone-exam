@@ -32,7 +32,7 @@ export class DatabaseService {
       const alertElement = await this.alertCtrl.create({
         message: error
       });
-      await alertElement.present();
+      alertElement.present();
     }
   }
 
@@ -73,7 +73,7 @@ export class DatabaseService {
       const alertElement = await this.alertCtrl.create({
         message: error
       });
-      await alertElement.present();
+      alertElement.present();
     }
   }
 

@@ -52,6 +52,10 @@ h6 {
   --background: url(/assets/image/blood.background.jpg) cover !important;
 }
 
+.var-pt-4p5rem {
+  --padding-top: 4.5rem;
+}
+
 .header-back-button {
   ion-title {
     width: calc(100% - 3.125rem);

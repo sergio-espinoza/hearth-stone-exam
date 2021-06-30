@@ -13,6 +13,5 @@ import { WidgetsModule } from 'src/app/widgets/widgets.module';
     HomePageRoutingModule
   ],
   declarations: [HomePage],
-  providers: []
 })
 export class HomePageModule {}

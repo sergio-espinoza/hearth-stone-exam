@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { capSQLiteValues } from '@capacitor-community/sqlite';
-import { TFormatQueryToInsert, TValuesSeparator } from 'src/app/models';
-import { IInfo } from 'src/app/models/info.interface';
+import { TFormatQueryToInsert, TValuesSeparator, IInfo } from 'src/app/models';
 
 @Injectable({ providedIn: 'root' })
 export class InfoService {

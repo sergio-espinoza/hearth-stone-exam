@@ -9,7 +9,7 @@ export class IntranetPage implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

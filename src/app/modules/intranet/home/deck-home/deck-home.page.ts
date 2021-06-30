@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ViewDidEnter } from '@ionic/angular';
-import { CardHttpService } from 'src/app/core/http/card.http.service';
-import { InfoService } from 'src/app/core/services';
-import { CardService } from 'src/app/core/services/card.service';
 import { IDeck } from 'src/app/models';
 @Component({
   selector: 'app-deck-home',

@@ -1,7 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { SearchComponent } from './components';
 import { FallbackPipe, JsonParsePipe } from './pipes';
 
-const COMPONENTS = [];
+const COMPONENTS = [
+  SearchComponent
+];
 const DIRECTIVES = [];
 const PIPES = [
   JsonParsePipe,
@@ -9,7 +14,10 @@ const PIPES = [
 ];
 
 @NgModule({
-  imports: [],
+  imports: [
+    CommonModule,
+    IonicModule,
+  ],
   exports: [
     ...COMPONENTS, ...DIRECTIVES, ...PIPES
   ],

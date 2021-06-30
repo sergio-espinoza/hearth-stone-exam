@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { capSQLiteValues } from '@capacitor-community/sqlite';
 import { çcardWrapper } from 'src/app/config';
-import { ICard, TFormatQueryToInsert, TValuesSeparator } from 'src/app/models';
-import { IInfo } from 'src/app/models/info.interface';
+import { ICard, TFormatQueryToInsert, TValuesSeparator, IInfo } from 'src/app/models';
 
 @Injectable({ providedIn: 'root' })
 export class CardService {
@@ -47,13 +46,13 @@ export class CardService {
     }), {} as IInfo);
   }
 
-  public formatCardsHttpResponseToInsert(cardHttpResponse: {[key: string]: ICard[]}): string {
+  public formatCardsHttpResponseToInsert(cardHttpResponse: { [key: string]: ICard[] }): string {
     return Object.values(cardHttpResponse)
-        .filter(d => d.length > 0)
-        .reduce((a, cd) => ([...a, ...cd]))
-        .map((v: ICard) => Object.entries({ ...çcardWrapper, ...v, ...{ mechanics: JSON.stringify(v.mechanics || []) } })
-          .filter(([key, value]) => key in çcardWrapper)
-          .map(([key, value]) => JSON.stringify(('' + value).replace(/\"/g, ''))))
-        .join('),(');
+      .filter(d => d.length > 0)
+      .reduce((a, cd) => ([...a, ...cd]))
+      .map((v: ICard) => Object.entries({ ...çcardWrapper, ...v, ...{ mechanics: JSON.stringify(v.mechanics || []) } })
+        .filter(([key, value]) => key in çcardWrapper)
+        .map(([key, value]) => JSON.stringify(('' + value).replace(/\"/g, ''))))
+      .join('),(');
   }
 }

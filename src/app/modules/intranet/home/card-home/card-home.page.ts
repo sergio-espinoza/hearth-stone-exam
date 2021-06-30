@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CardDatabaseService } from 'src/app/core/database';
 import { CardStateService } from 'src/app/core/state-management';
-import { ICard } from 'src/app/models';
+import { ICard, TWhereQuery } from 'src/app/models';
 
 @Component({
   selector: 'app-card',
@@ -19,7 +19,7 @@ export class CardHomePage implements OnInit, ViewDidEnter {
   public cardList: ICard[] = [];
   public cardList$?: Observable<ICard[]>;
 
-  public selectedSegment: [string, number | string];
+  public selectedSegment: TWhereQuery;
   private lastCardIndex = 0;
 
   constructor(
@@ -27,7 +27,6 @@ export class CardHomePage implements OnInit, ViewDidEnter {
     private router: Router,
     private cardStateSvc: CardStateService
   ) { }
-
 
   public loadCardsByScroll(event: any): void {
     setTimeout(() => {
@@ -49,7 +48,6 @@ export class CardHomePage implements OnInit, ViewDidEnter {
     }
     this.loadCards(this.selectedSegment);
   }
-
 
   public loadCards(selectedSegment: [string, string | number]): void {
     this.cardsDatabaseSvc.getCardPagination(

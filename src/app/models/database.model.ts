@@ -18,3 +18,5 @@ export interface IPaginationQuery {
   tableName: TTableNames;
   columnName?: string;
 }
+
+export type TWhereQuery = [string, number | string];

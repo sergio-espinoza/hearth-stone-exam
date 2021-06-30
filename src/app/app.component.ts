@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LoadingController, Platform } from '@ionic/angular';
 import { delay, filter, take, tap } from 'rxjs/operators';
-import { DatabaseService } from './core/database/database.service';
+import { DatabaseService } from './core/database';
 import { DatabaseStateService } from './core/state-management';
 
 @Component({

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { IPaginationQuery, TTableNames } from 'src/app/models';
+import { IPaginationQuery, TTableNames, TWhereQuery } from 'src/app/models';
 
 @Injectable({ providedIn: 'root' })
 export class QueryDatabaseService {
   public getPaginationQuery(
     { lastValue, limitValue, tableName, columnName = 'id' }: IPaginationQuery,
     [key, value]: [string, string | number] = ['', '']
-    ): string {
+  ): string {
 
     const segmentStatement = (key || value) ? `AND ${key}=${value} ` : '';
 
@@ -35,14 +35,17 @@ export class QueryDatabaseService {
     `.replace(/\n+ */g, ' ').trim();
   }
 
-  public getQuatityQuery(
+  public getQuantityQuery(
     tableName: TTableNames,
     condition?: { [key: string]: string | number }
   ) {
     return `SELECT COUNT(column_name) FROM table_name WHERE condition;`;
   }
 
-  public getCountRowsQuery(tableName: TTableNames, [selector, value]: [string, number | string] = ['', 0]): string {
+  public getCountRowsQuery(
+    tableName: TTableNames,
+    [selector, value]: TWhereQuery = ['', 0]
+  ): string {
     const whereCondition = selector || value ? ` WHERE ${selector}=${value}` : '';
     return `SELECT COUNT(*) FROM ${tableName}${whereCondition};`.trim();
   }
